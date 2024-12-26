@@ -1,0 +1,38 @@
+
+Key Notes:
+
+1. DbContext methods are part of the Entity Framework Core.
+
+
+2. The choice of method depends on the operation being performed: insertion, retrieval, update, or deletion.
+
+
+3. For SaveChanges or SaveChangesAsync, it's required to commit the changes made using Add, Remove, Update, etc.
+
+
+4. LINQ queries (e.g., Where, OrderBy) are evaluated against the database and optimized for performance.
+
+
+Method Description Example
+Add : Adds a new user entity to the context for insertion into the database. dbContext.Users.Add(new User { UserName = "JohnDoe" });
+AddRange : Adds multiple user entities to the context for insertion into the database. dbContext.Users.AddRange(user1, user2);
+Find : Finds an entity with the given primary key. var user = dbContext.Users.Find(1);
+First : Retrieves the first user that matches a condition. Throws an exception if no match is found. var user = dbContext.Users.First(u => u.UserName == "JohnDoe");
+FirstOrDefault :Retrieves the first user that matches a condition or returns null if no match is found. var user = dbContext.Users.FirstOrDefault(u => u.UserName == "JohnDoe");
+Single Retrieves a single user that matches a condition. Throws an exception if multiple matches exist. var user = dbContext.Users.Single(u => u.Email == "johndoe@example.com");
+SingleOrDefault Retrieves a single user that matches a condition or returns null if no match is found. var user = dbContext.Users.SingleOrDefault(u => u.Email == "johndoe@example.com");
+Remove Removes a user entity from the context. dbContext.Users.Remove(existingUser);
+RemoveRange Removes multiple user entities from the context. dbContext.Users.RemoveRange(users);
+Update Marks an entity as modified, so changes are saved to the database. dbContext.Users.Update(existingUser);
+Any Checks if any users match a condition. Returns a boolean. bool exists = dbContext.Users.Any(u => u.UserName == "JohnDoe");
+Where Filters users that match a condition. var users = dbContext.Users.Where(u => u.Email.Contains("example.com")).ToList();
+Count Counts the total users matching a condition. int count = dbContext.Users.Count(u => u.Email.Contains("example.com"));
+ToList Converts the query result to a list. var allUsers = dbContext.Users.ToList();
+Include Includes related entities in the query result (e.g., navigation properties). var usersWithOrders = dbContext.Users.Include(u => u.Orders).ToList();
+OrderBy Orders the users in ascending order based on a property. var users = dbContext.Users.OrderBy(u => u.UserName).ToList();
+OrderByDescending Orders the users in descending order based on a property. var users = dbContext.Users.OrderByDescending(u => u.CreatedAt).ToList();
+Skip Skips a specified number of users in the result set. var users = dbContext.Users.Skip(10).ToList();
+Take Takes a specified number of users from the result set. var users = dbContext.Users.Take(10).ToList();
+GroupBy Groups users by a specified property. var groupedUsers = dbContext.Users.GroupBy(u => u.City).ToList();
+SaveChanges Saves all changes made in the context to the database. dbContext.SaveChanges();
+SaveChangesAsync Asynchronously saves all changes made in the context to the database. await dbContext.SaveChangesAsync();

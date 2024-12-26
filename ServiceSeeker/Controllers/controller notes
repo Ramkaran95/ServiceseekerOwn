@@ -1,0 +1,214 @@
+Here's a concise list of API controller annotations in ASP.NET Core with syntax:
+
+1. [ApiController]
+
+Description: Marks a controller as an API controller with automatic model validation.
+
+Syntax:
+
+[ApiController]
+[Route("api/[controller]")]
+public class ProductsController : ControllerBase { }
+
+
+
+2. [Route]
+
+Description: Defines the route pattern for the controller or action method.
+
+Syntax:
+
+[Route("api/[controller]")]
+public class ProductsController : ControllerBase { }
+
+
+
+3. [HttpGet], [HttpPost], [HttpPut], [HttpDelete], [HttpPatch]
+
+Description: Maps HTTP methods to action methods.
+
+Syntax:
+
+[HttpGet]
+public IActionResult GetProduct() { }
+
+[HttpPost]
+public IActionResult CreateProduct(Product product) { }
+
+
+
+4. [HttpHead]
+
+Description: Handles HTTP HEAD requests.
+
+Syntax:
+
+[HttpHead]
+public IActionResult GetProductHeaders() { }
+
+
+
+5. [HttpOptions]
+
+Description: Handles HTTP OPTIONS requests.
+
+Syntax:
+
+[HttpOptions]
+public IActionResult GetAllowedMethods() { }
+
+
+
+6. [FromBody]
+
+Description: Binds parameters from the request body.
+
+Syntax:
+
+[HttpPost]
+public IActionResult CreateProduct([FromBody] Product product) { }
+
+
+
+7. [FromQuery]
+
+Description: Binds parameters from query string.
+
+Syntax:
+
+[HttpGet]
+public IActionResult GetProduct([FromQuery] int id) { }
+
+
+
+8. [FromRoute]
+
+Description: Binds parameters from route data.
+
+Syntax:
+
+[HttpGet("{id}")]
+public IActionResult GetProduct([FromRoute] int id) { }
+
+
+
+9. [FromHeader]
+
+Description: Binds parameters from request headers.
+
+Syntax:
+
+[HttpGet]
+public IActionResult GetProduct([FromHeader] string userAgent) { }
+
+
+
+10. [FromForm]
+
+Description: Binds parameters from form data.
+
+Syntax:
+
+[HttpPost]
+public IActionResult CreateProduct([FromForm] Product product) { }
+
+
+
+11. [FromServices]
+
+Description: Binds parameters from services (dependency injection).
+
+Syntax:
+
+[HttpGet]
+public IActionResult GetProduct([FromServices] IProductService productService) { }
+
+
+
+12. [Route("path")] (On Action)
+
+Description: Custom route for specific actions.
+
+Syntax:
+
+[HttpGet]
+[Route("search/{name}")]
+public IActionResult SearchProduct(string name) { }
+
+
+
+13. [Produces]
+
+Description: Specifies response media types.
+
+Syntax:
+
+[Produces("application/json")]
+public IActionResult GetProduct() { }
+
+
+
+14. [Consumes]
+
+Description: Specifies accepted request media types.
+
+Syntax:
+
+[HttpPost]
+[Consumes("application/json")]
+public IActionResult CreateProduct([FromBody] Product product) { }
+
+
+
+15. [ValidateModelState]
+
+Description: Ensures the model is valid before executing the action.
+
+Syntax:
+
+[HttpPost]
+public IActionResult CreateProduct([FromBody] Product product)
+{
+    if (!ModelState.IsValid)
+    {
+        return BadRequest(ModelState);
+    }
+}
+
+
+
+16. [Authorize]
+
+Description: Requires authorization for the action or controller.
+
+Syntax:
+
+[Authorize]
+public IActionResult GetSecureData() { }
+
+
+
+17. [AllowAnonymous]
+
+Description: Allows unauthenticated access to a controller or action.
+
+Syntax:
+
+[AllowAnonymous]
+public IActionResult GetPublicData() { }
+
+
+
+18. [ResponseCache]
+
+Description: Defines caching behavior for the action response.
+
+Syntax:
+
+[HttpGet]
+[ResponseCache(Duration = 60)]
+public IActionResult GetProduct() { }
+
+
+
+

@@ -1,0 +1,200 @@
+DTO classes are used to transfer data between layers (e.g., from client to API). 
+Data annotations here are typically for validation purposes only.
+To validate input data from the client before processing it in the controller.
+éx.
+public class UserDTO
+{
+    [Required]
+    [MaxLength(50)]
+    public string UserName { get; set; }
+
+    [Required]
+    [EmailAddress]
+    public string Email { get; set; }
+}
+
+Here’s a list of useful data annotations for a DTO (Data Transfer Object) class in .NET:
+
+
+---
+
+1. General Validation
+
+[Required]: Ensures the property cannot be null or empty. Example:
+
+[Required]
+public string UserName { get; set; }
+
+[MaxLength(n)]: Restricts the maximum length of a string. Example:
+
+[MaxLength(50)]
+public string UserName { get; set; }
+
+[MinLength(n)]: Ensures the string has a minimum length. Example:
+
+[MinLength(6)]
+public string Password { get; set; }
+
+[StringLength]: Combines both minimum and maximum length validation. Example:
+
+[StringLength(50, MinimumLength = 6)]
+public string Password { get; set; }
+
+[Range]: Validates a numeric property to be within a specified range. Example:
+
+[Range(18, 99)]
+public int Age { get; set; }
+
+[RegularExpression]: Validates the property value against a specific regex pattern. Example:
+
+[RegularExpression(@"^[A-Za-z0-9]+$")]
+public string UserName { get; set; }
+
+[Compare]: Compares two properties for equality (e.g., for password confirmation). Example:
+
+[Compare("Password")]
+public string ConfirmPassword { get; set; }
+
+
+
+---
+
+2. Data Type Validation
+
+[EmailAddress]: Validates that the value is a valid email address. Example:
+
+[EmailAddress]
+public string Email { get; set; }
+
+[Phone]: Ensures the value is a valid phone number. Example:
+
+[Phone]
+public string PhoneNumber { get; set; }
+
+[Url]: Validates that the value is a valid URL. Example:
+
+[Url]
+public string Website { get; set; }
+
+[CreditCard]: Validates that the value is a valid credit card number. Example:
+
+[CreditCard]
+public string CreditCardNumber { get; set; }
+
+[DataType]: Specifies the type of data (e.g., Date, Time, Currency) for display purposes. Example:
+
+[DataType(DataType.Date)]
+public DateTime BirthDate { get; set; }
+
+
+
+---
+
+3. Complex Validation
+
+[CustomValidation]: Allows custom validation logic using a static method. Example:
+
+[CustomValidation(typeof(ValidatorClass), "ValidateMethod")]
+public string CustomField { get; set; }
+
+[ValidateComplexType]: Ensures nested objects are validated. Example:
+
+[ValidateComplexType]
+public AddressDTO Address { get; set; }
+
+
+
+---
+
+4. Display and Metadata
+
+[Display]: Specifies how the property name should appear in error messages or UI. Example:
+
+[Display(Name = "Full Name")]
+public string Name { get; set; }
+
+[DisplayFormat]: Formats the property value for display purposes. Example:
+
+[DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}")]
+public DateTime BirthDate { get; set; }
+
+[ScaffoldColumn]: Determines whether a property should be displayed in auto-generated UI. Example:
+
+[ScaffoldColumn(false)]
+public string InternalId { get; set; }
+
+
+
+---
+
+5. Key and Relational Attributes
+
+[Key]: Marks a property as a primary key. Example:
+
+[Key]
+public int Id { get; set; }
+
+[ForeignKey]: Indicates a foreign key relationship with another entity. Example:
+
+[ForeignKey("CategoryId")]
+public int CategoryId { get; set; }
+
+
+
+---
+
+6. Default Value Handling
+
+You can assign default values directly in a DTO using property initializers:
+
+public string ProfilePhoto { get; set; } = "default.jpg";
+public DateTime CreatedAt { get; set; } = DateTime.Now;
+
+
+---
+
+Practical Example of a DTO Class with Data Annotations
+
+public class UserDTO
+{
+    [Required]
+    [MaxLength(50)]
+    public string UserName { get; set; }
+
+    [Required]
+    [EmailAddress]
+    public string Email { get; set; }
+
+    [Required]
+    [MinLength(6)]
+    public string Password { get; set; }
+
+    [Compare("Password")]
+    public string ConfirmPassword { get; set; }
+
+    [Phone]
+    public string PhoneNumber { get; set; }
+
+    [DataType(DataType.Date)]
+    [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}")]
+    public DateTime DateOfBirth { get; set; }
+}
+
+
+---
+
+Why Use Data Annotations in DTOs?
+
+1. Input Validation: Automatically validate data coming from user input.
+
+
+2. Simplify Business Logic: Avoid writing repetitive validation code.
+
+
+3. Improve Maintainability: Centralize validation rules within the DTO class.
+
+
+4. Consistent Error Messages: Provides clear, predefined error messages for invalid input.
+
+
+
