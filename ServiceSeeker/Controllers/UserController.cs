@@ -29,7 +29,7 @@ namespace ServiceSeeker.Controllers
         
         
         [HttpPost]
-[Route("userRegistration")]
+[Route("Registration")]
         public ActionResult UserReg(UsersDTO usersDTO) 
         {
             if (usersDTO==null){
@@ -71,7 +71,7 @@ namespace ServiceSeeker.Controllers
         }
         
         [HttpPost]
-        [Route("userLogin")]
+        [Route("Login")]
         public ActionResult UserLogin(UserLoginDTO loginDto){
             
             var userdata= _dbcontext.Users.FirstOrDefault(x => x.Email==loginDto.Email && x.password== loginDto.password);
@@ -96,6 +96,78 @@ namespace ServiceSeeker.Controllers
             
             
            
+            
+            
+            
+        }
+        
+        [HttpPut]
+        [Route("Update")]
+        public ActionResult UserUpdate(int id, UsersDTO userdto){
+            
+            if (!ModelState.IsValid){
+                return BadRequest(ModelState);
+            }
+            var user= _dbcontext.Users.FirstOrDefault(x => x.UserId== id);
+            // Update only the provided properties
+    if (!string.IsNullOrEmpty(userdto.UserName))
+    {
+        if (user.userName==userdto.userName){
+            user.UserName = userdto.UserName;
+            
+           
+        }
+        var existingUser= _dbcontext.Users.FirstOrDefault(x => x.UserName == usersDTO.UserName);
+            if (existingUser != null){
+                
+                return BadRequest("username not available..");
+                
+            }
+        user.UserName = userdto.UserName;
+    }
+
+    if (!string.IsNullOrEmpty(userdto.FirstName))
+    {
+        user.FirstName = userdto.FirstName;
+    }
+
+    if (!string.IsNullOrEmpty(userdto.LastName))
+    {
+      user.LastName = userdto.LastName;
+    }
+
+    if (!string.IsNullOrEmpty(userdto.MiddleName))
+    {
+      user.MiddleName = userdto.MiddleName;
+    }
+
+    if (userdto.PhoneNumber != 0)
+    {
+        user.PhoneNumber = userdto.PhoneNumber;
+    }
+
+    if (!string.IsNullOrEmpty(userdto.Email))
+    {
+        if (user.userEmail==userdto.userEmail){
+            user.Email = userdto.Email;
+            
+           
+        }
+        var existingUser= _dbcontext.Users.FirstOrDefault(x => x.Email == usersDTO.Email);
+            if (existingUser != null){
+                
+                return BadRequest("email already registered..");
+                
+            }
+        
+        user.Email = userdto.Email;
+    }
+
+    // Save the changes to the database
+    _dbcontext.SaveChanges();
+
+    return Ok(new { Message = "User updated successfully." });
+}
             
             
             
