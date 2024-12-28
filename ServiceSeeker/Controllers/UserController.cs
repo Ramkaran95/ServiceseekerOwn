@@ -110,13 +110,8 @@ namespace ServiceSeeker.Controllers
             }
             var user= _dbcontext.Users.FirstOrDefault(x => x.UserId== id);
             // Update only the provided properties
-    if (!string.IsNullOrEmpty(userdto.UserName))
+    if (!string.IsNullOrEmpty(userdto.UserName) && user.UserName != userdto.UserName)
     {
-        if (user.userName==userdto.userName){
-            user.UserName = userdto.UserName;
-            
-           
-        }
         var existingUser= _dbcontext.Users.FirstOrDefault(x => x.UserName == usersDTO.UserName);
             if (existingUser != null){
                 
@@ -146,13 +141,8 @@ namespace ServiceSeeker.Controllers
         user.PhoneNumber = userdto.PhoneNumber;
     }
 
-    if (!string.IsNullOrEmpty(userdto.Email))
+    if (!string.IsNullOrEmpty(userdto.Email) && user.Email != userdto.Email)
     {
-        if (user.userEmail==userdto.userEmail){
-            user.Email = userdto.Email;
-            
-           
-        }
         var existingUser= _dbcontext.Users.FirstOrDefault(x => x.Email == usersDTO.Email);
             if (existingUser != null){
                 
