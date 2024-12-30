@@ -22,6 +22,8 @@ namespace ServiceSeeker.Model
         //public String? ProfilePhoto { get; set; } ="Default.jpg";
 
         public required DateTime CreatAt { get; set; }=DateTime.Now; 
+        public string? Otp { get; set; }
+public DateTime? OtpExpiry { get; set; }
 
     }
 }

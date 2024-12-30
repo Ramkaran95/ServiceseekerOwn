@@ -72,7 +72,8 @@ namespace ServiceSeeker.Controllers
         
         [HttpPost]
         [Route("Login")]
-        public ActionResult UserLogin(UserLoginDTO loginDto){
+        public ActionResult UserLogin(UserLoginDTO loginDto)
+        {
             
             var userdata= _dbcontext.Users.FirstOrDefault(x => x.Email==loginDto.Email && x.password== loginDto.password);
             
@@ -103,7 +104,8 @@ namespace ServiceSeeker.Controllers
         
         [HttpPut]
         [Route("Update")]
-        public ActionResult UserUpdate(int id, UsersDTO userdto){
+        public ActionResult UserUpdate(int id, UsersDTO userdto)
+        {
             
             if (!ModelState.IsValid){
                 return BadRequest(ModelState);
@@ -158,8 +160,97 @@ namespace ServiceSeeker.Controllers
 
     return Ok(new { Message = "User updated successfully." });
 }
-            
-            
+[HttpPost]
+[Route("ResetPassword")]
+public IActionResult ResetPassword([FromBody] ResetPasswordDto resetDto)
+{
+    var user = _dbcontext.Users.FirstOrDefault(x => x.Email == resetDto.Email);
+    if (user == null)
+    {
+        return NotFound(new { Message = "User not found." });
+    }
+
+    // Validate OTP
+    if (user.Otp != resetDto.Otp || user.OtpExpiry < DateTime.UtcNow)
+    {
+        return BadRequest(new { Message = "Invalid or expired OTP." });
+    }
+
+    // Update the password
+    user.Password = resetDto.NewPassword; // Hash the password for better security
+    user.Otp = null; // Clear the OTP after successful reset
+    user.OtpExpiry = null;
+    _dbcontext.SaveChanges();
+
+    return Ok(new { Message = "Password reset successfully." });
+}
+
+[HttpPost]
+[Route("GenerateOtp")]
+public IActionResult GenerateOtp([FromBody] string email)
+{
+    var user = _dbcontext.Users.FirstOrDefault(x => x.Email == email);
+    if (user == null)
+    {
+        return NotFound(new { Message = "User not found." });
+    }
+
+    // Generate a 6-digit OTP
+    var otp = new Random().Next(100000, 999999).ToString();
+
+    // Save OTP and expiry time to the user record
+    user.Otp = otp;
+    user.OtpExpiry = DateTime.UtcNow.AddMinutes(10); // OTP valid for 10 minutes
+    _dbcontext.SaveChanges();
+
+    // Simulate sending OTP (replace with actual email/SMS service)
+    SendOtpToUser(user.Email, otp);
+
+    return Ok(new { Message = "OTP sent successfully." });
+}
+
+private void SendOtpToUser(string email, string otp)
+{
+    try
+    {
+        // Configure SMTP settings
+        var smtpClient = new SmtpClient("smtp.gmail.com")
+        {
+            Port = 587, // Default port for SMTP
+            Credentials = new NetworkCredential("death95035@gmail.com", "onoj nxjb riqw fjql"),
+            EnableSsl = true,
+        };
+
+        // Compose the email
+        var mailMessage = new MailMessage
+        {
+            From = new MailAddress("death95035@gmail.com", "ServiceSeeker Support"),
+            Subject = "Your OTP for Password Reset",
+            Body = $"Hello,\n\nYour OTP for resetting your password is: {otp}\n\nThis OTP is valid for 10 minutes.\n\nThank you,\nServiceSeeker Team",
+            IsBodyHtml = false,
+        };
+        mailMessage.To.Add(email);
+
+        // Send the email
+        smtpClient.Send(mailMessage);
+
+        Console.WriteLine("OTP sent successfully.");
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Error sending OTP: {ex.Message}");
+        // Log error and handle accordingly
+    }
+
+
+        
+        
+        
+        
+
+
+
+      
             
         }
 
