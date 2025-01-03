@@ -4,6 +4,7 @@
 
 namespace ServiceSeeker.Model
 {
+    // use for registration purpose 
     public class UsersDTO
     {
        [MaxLength(10)]

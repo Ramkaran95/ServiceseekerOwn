@@ -2,6 +2,7 @@
 
 namespace ServiceSeeker.Model
 {
+    //use for login purpose 
     public class UserLoginDTO(){
         
         [EmailAddress]

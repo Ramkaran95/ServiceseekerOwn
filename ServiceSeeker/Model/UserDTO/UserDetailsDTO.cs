@@ -1,5 +1,5 @@
 namespace ServiceSeeker.Model
-{
+{ // this can be use after successful login of user 
     public class UserDetailsDTO
     {
       
