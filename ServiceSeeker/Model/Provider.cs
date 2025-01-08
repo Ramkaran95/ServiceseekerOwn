@@ -28,7 +28,7 @@ namespace ServiceSeeker.Model
         [MaxLength(255)]
         public string? ProfilePhoto { get; set; } = "default.jpg";
 
-        [Required, MaxLength(15)]
+        [Required, MinLength(15)]
         public string PhoneNumber { get; set; }
 
         [Required, MaxLength(255)]
@@ -96,7 +96,7 @@ namespace ServiceSeeker.Model
 
         [MaxLength(255)]
         public string? ServiceImage3 { get; set; }
-
+        public string? area{get; set;}=null;
         [Required, MaxLength(100)]
         public string State { get; set; }
 
@@ -114,6 +114,8 @@ namespace ServiceSeeker.Model
 
         [Required, MaxLength(20)]
         public string Latitude { get; set; }
+         [Required]
+        public required DateTime CreatAt { get; set; } = DateTime.Now;
         
         public string? Otp { get; set; }=null;
 
